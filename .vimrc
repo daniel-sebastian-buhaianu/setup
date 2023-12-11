@@ -19,5 +19,20 @@ vnoremap <Right> <Nop>
 vnoremap <Up> <Nop>
 " Use templates from $HOME/tpl
 autocmd BufNewFile * silent! 0r $HOME/tpl/%:e.tpl
-" .cpp files
+" Competitive programming configuration (c++ files)
 autocmd BufNewFile *.cpp %s/FILENAME/\=expand("%:t:r")
+function! BuildAndRun(option)
+  let filename = expand("%:r")
+  let valgrind = a:option == 1 || a:option == 3 ? "valgrind " : ""
+  let catResult = a:option >= 2 ? " && cat ".filename.".out" : ""
+  execute "!make ".filename." && ".valgrind."./".filename.catResult
+endfunction
+command! -nargs=0 BAR call BuildAndRun(0)
+command! -nargs=0 BARV call BuildAndRun(1)
+command! -nargs=0 BARADO call BuildAndRun(2)
+command! -nargs=0 BARADOV call BuildAndRun(3)
+function! OpenInputFile()
+  let filename = expand("%:r")
+  execute "!vim ".filename.".in"
+endfunction
+command! -nargs=0 IN call OpenInputFile()
