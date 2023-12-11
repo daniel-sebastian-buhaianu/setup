@@ -9,7 +9,8 @@ else
     pathToReadme="$numeRepo/README.md"
     touch $pathToReadme
     echo "# $numeRepo" >> $pathToReadme
-    linkProblema=$(python3 link.py $numeProblema)
+    pathToLinkPy="/home/dsb99/sh/campion/link.py"
+    linkProblema=$(python3 "$pathToLinkPy" "$numeProblema")
     if [ -z "$linkProblema" ]; then
       echo "Nu am putut obtine linkul problemei"
     else
